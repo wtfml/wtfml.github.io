@@ -1,0 +1,165 @@
+/* 首页和详细页共用的版式；颜色、字体、控件来自 tokens.css */
+/* 颜色、字体、控件来自 tokens.css；这里只管版式 */
+.wrap { width: 100%; max-width: 1120px; margin-inline: auto; padding-inline: 32px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* —— 首屏：清晰风景，底部渐隐进整页的模糊风景 —— */
+/* tokens.css 里 --scene 的相对地址按使用处的样式表解析，这里按 css/ 的位置写 ../assets */
+[data-theme="dark"]    { --hero-img: url(../assets/scenes/dark.jpg);    --frame: 50% 40%; }
+[data-theme="dark"]    { --hero-top: .50; }  /* 定位句是细体小字，暗角比 tokens 默认再深一点 */
+.hero { position: relative; isolation: isolate; color: var(--hero-ink); }
+.hero::before, .hero::after { content: ""; position: absolute; inset: 0 0 auto; height: calc(100svh + 160px); z-index: -2; pointer-events: none; }
+.hero::before {
+  background: var(--hero-img) var(--frame) / cover;
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 300px), transparent);
+          mask-image: linear-gradient(#000 calc(100% - 300px), transparent);
+}
+/* 字居中：中间一团压暗托住字，四周留给山；顶边一条托住导航 */
+.hero::after {
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(var(--hero-veil), .40) 0, rgba(var(--hero-veil), 0) 140px),
+    radial-gradient(50% 44% at 50% 42%, rgba(var(--hero-veil), var(--hero-top)), rgba(var(--hero-veil), 0) 100%);
+}
+.topbar { display: flex; align-items: center; gap: 6px; height: 76px; max-width: 1280px; }
+.logo { display: flex; align-items: center; gap: 10px; margin-right: auto; color: var(--hero-ink); text-decoration: none; border-radius: var(--r-ctl); }
+.logo .mark { width: 26px; height: 26px; flex: none; fill: var(--accent); }
+[data-theme="dark"] .logo .mark { fill: url(#w-dusk); }   /* 暮色雪山下 W 用原来的暮紫渐变 */
+.logo span { font: 29px/1 var(--script); }
+.topbar .nav-item { flex: none; white-space: nowrap; color: var(--hero-ink); }  /* 风景上小字用满色才过 4.5 */
+.topbar .nav-item:hover { color: var(--hero-ink); }
+
+.intro { text-align: center; padding-top: clamp(40px, 11vh, 118px); }
+.wordmark { margin: 0; font: 400 clamp(84px, 10.5vw, 156px)/1 var(--script); letter-spacing: .01em; }
+.subtitle { margin: 6px 0 0; font: 400 clamp(19px, 1.9vw, 27px)/1.4 var(--script); color: var(--hero-ink); text-wrap: balance; }
+.tagline { margin: 26px 0 30px; font: 300 clamp(19px, 1.6vw, 23px)/1.6 var(--hand); letter-spacing: .1em; }
+.tagline span { display: inline-block; }  /* 窄屏只在「一站式的 / 现代」之间折行 */
+.btn.lg .ico { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.note { margin: 14px 0 0; color: var(--hero-ink); }
+.peek { width: min(100%, 980px); margin: clamp(40px, 7vh, 64px) auto 0; }
+
+/* —— 特点：一段 = 短标题 + 一两句 + 一张真截图，左右交替 —— */
+.feature { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: center; padding-top: 136px; }
+.feature.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }  /* 对调后截图仍占宽栏 */
+.feature.flip .feature-copy { order: 2; }
+.feature h2 { margin: 0 0 16px; font: 300 clamp(34px, 3.4vw, 46px)/1.25 var(--hand); letter-spacing: .08em; }
+.feature p { margin: 0; font-size: 17px; color: var(--ink-2); max-width: 22em; }
+
+/* —— 点缀：一句每日一言，格式同 app 的悬停提示 —— */
+.quote { margin: 0 auto; padding: 128px 0 140px; text-align: center; }
+.quote blockquote { text-wrap: balance; }
+.quote blockquote { margin: 0; font: 300 clamp(24px, 2.4vw, 32px)/1.6 var(--hand); letter-spacing: .08em; }
+.quote blockquote:lang(en) { font: 400 clamp(26px, 2.6vw, 36px)/1.4 var(--script); letter-spacing: .01em; }
+.quote figcaption { margin-top: 14px; font: 14px/1.5 var(--ui); color: var(--ink-2); }
+
+@media (max-width: 860px) {
+  .wrap { padding-inline: 20px; }
+  .topbar { height: 64px; }
+  .logo span { font-size: 26px; }
+  .logo .mark { width: 22px; height: 22px; }
+  .intro { padding-top: 64px; }
+  .hero::after {
+    background:
+      linear-gradient(180deg, rgba(var(--hero-veil), .40) 0, rgba(var(--hero-veil), 0) 110px),
+      radial-gradient(100% 44% at 50% 40%, rgba(var(--hero-veil), var(--hero-top)), rgba(var(--hero-veil), 0) 100%);
+  }
+  .subtitle { font-size: 19px; }
+  .tagline { margin: 22px 0 26px; font-size: 18px; letter-spacing: .06em; }
+  .peek { margin-top: 44px; }
+  .feature, .feature.flip { grid-template-columns: 1fr; gap: 28px; padding-top: 96px; }
+  .feature.flip .feature-copy { order: 0; }
+  .quote { padding: 88px 0 100px; }
+}
+
+/* —— v4：首页「了解更多」、收尾下载、页脚 —— */
+.more { display: inline-block; margin-top: 20px; font-size: 15px; color: var(--link, var(--accent)); text-decoration: none; }
+.more:hover { text-decoration: underline; text-underline-offset: 4px; }
+.feature + .feature { padding-top: 160px; }
+.quote + .feature { padding-top: 0; }  /* 点缀自带上下留白 */
+.closing { padding: 152px 0 120px; text-align: center; }
+.closing .cap { margin: 14px 0 0; color: var(--ink-2); }
+.site-foot { padding-block: 40px 56px; text-align: center; font-size: 13px; line-height: 1.8; color: var(--ink-2); }
+.site-foot p { margin: 0; }
+.site-foot a { color: inherit; }
+.site-foot a:hover { color: var(--ink); }
+
+/* —— 详细页 —— */
+.page-head { --hero-ink: var(--ink); --hero-ink-2: var(--ink-2); color: var(--ink); }
+.page-intro { padding-block: clamp(32px, 6vh, 64px) 0; }  /* 只设上下，左右留给 .wrap */
+.page-intro h1 { margin: 0; font: 300 clamp(40px, 4.4vw, 60px)/1.2 var(--hand); letter-spacing: .08em; }
+.topbar .nav-item[aria-current="page"] { color: var(--hero-ink); }
+.detail { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: center; padding-top: 128px; scroll-margin-top: 24px; }
+main > .detail:first-child { padding-top: 80px; }  /* 页头只剩标题，第一段贴近些 */
+.detail.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.detail.flip .detail-copy { order: 2; }
+.detail.noshot { grid-template-columns: minmax(0, 1fr); }
+.detail.noshot .points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 40px; }
+.detail h2 { margin: 0 0 14px; font: 300 clamp(30px, 3vw, 40px)/1.25 var(--hand); letter-spacing: .08em; }
+.detail .lead { margin: 0; font-size: 17px; color: var(--ink-2); max-width: 24em; }
+.points { list-style: none; margin: 28px 0 0; padding: 0; }
+.points li { margin-top: 12px; font-size: 15px; line-height: 1.7; color: var(--ink-2); }
+.points b { margin-right: .6em; font-weight: 600; color: var(--ink); }
+.all { padding-top: 152px; }
+.all h2 { margin: 0 0 28px; font: 300 clamp(30px, 3vw, 40px)/1.25 var(--hand); letter-spacing: .08em; text-align: center; }
+.all ul { list-style: none; margin: 0 auto; padding: 0; max-width: 980px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 48px; }
+.all li { font-size: 15px; line-height: 1.7; color: var(--ink-2); }
+.all b { margin-right: .6em; font-weight: 600; color: var(--ink); }
+
+@media (max-width: 860px) {
+  .feature + .feature { padding-top: 112px; }
+  .closing { padding: 112px 0 88px; }
+  .detail, .detail.flip { grid-template-columns: 1fr; gap: 28px; padding-top: 88px; }
+  .detail.flip .detail-copy { order: 0; }
+  main > .detail:first-child { padding-top: 48px; }
+  .detail.noshot .points { grid-template-columns: 1fr; }
+  .all { padding-top: 112px; }
+  .all ul { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 420px) {
+  .topbar { gap: 4px; }
+  .logo { gap: 8px; }
+  .logo .mark { width: 20px; height: 20px; }
+  .logo span { font-size: 24px; }
+  .topbar .nav-item { padding: 0 8px; font-size: 15px; }
+}
+
+/* 英文页：中文用的宽字距放到拉丁字母上太散，收到 .01em；正文和按钮也收紧 */
+html:lang(en) .tagline, html:lang(en) .feature h2, html:lang(en) .page-intro h1,
+html:lang(en) .detail h2, html:lang(en) .all h2 { letter-spacing: .01em; }
+html:lang(en) .btn, html:lang(en) .nav-item { letter-spacing: .02em; }
+
+/* ===== 首页底部「继续下滑」：圆环随到底后的滚动量蓄满（--p 由 js/motion.js 写），箭头慢慢上下浮 ===== */
+.next-page { display: flex; flex-direction: column; align-items: center; gap: 12px; width: max-content; margin: -40px auto 0; padding: 8px 16px 64px;
+  color: var(--ink-2); font: 15px/1.4 var(--hand); letter-spacing: .08em; text-decoration: none; border-radius: var(--r-ctl); }
+.next-page:hover { color: var(--ink); }
+.next-ring { position: relative; width: 48px; height: 48px; }
+.next-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; }
+.next-ring circle { stroke-width: 1.5; }
+.next-ring .track { stroke: var(--line); }
+.next-ring .fill { stroke: var(--accent); stroke-width: 2.25; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p, 0)); transform: rotate(-90deg); transform-origin: center; }
+.next-arrow { stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; animation: next-float 2.4s ease-in-out infinite; }
+@keyframes next-float { 50% { transform: translateY(3px); } }
+html:lang(en) .next-page { letter-spacing: .02em; }
+
+/* 浮现：只有 motion.js 加了 js-reveal 才先藏起来；慢、轻，不弹跳 */
+.js-reveal .hero ~ main > .feature, .js-reveal .hero ~ main > .quote { transition: opacity 600ms var(--ease), transform 600ms var(--ease); }
+.js-reveal .hero ~ main > :is(.feature, .quote):not(.is-in) { opacity: 0; transform: translateY(12px); }
+
+/* 离开首页：整页磨砂再淡到底色，500ms 后跳转 */
+.leave-veil { position: fixed; inset: 0; z-index: 50; pointer-events: none; background: rgba(16, 18, 26, 0);
+  -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0); transition: background-color 500ms ease-in, backdrop-filter 500ms var(--ease), -webkit-backdrop-filter 500ms var(--ease); }
+.is-leaving .leave-veil { background: rgba(16, 18, 26, 1); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+
+/* 从首页进功能详解：页头和各段依次浮现（标记由页头内联脚本从 sessionStorage 读，地址栏不留参数）；直接打开不动 */
+.from-home .page-intro, .from-home main > section { animation: enter-rise 600ms var(--ease) both; }
+.from-home main > section:nth-child(1) { animation-delay: 90ms; }
+.from-home main > section:nth-child(2) { animation-delay: 180ms; }
+.from-home main > section:nth-child(n+3) { animation-delay: 270ms; }
+@keyframes enter-rise { from { opacity: 0; transform: translateY(12px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .next-arrow, .from-home .page-intro, .from-home main > section { animation: none; }
+  .js-reveal .hero ~ main > :is(.feature, .quote) { opacity: 1; transform: none; transition: none; }
+  .leave-veil { display: none; }
+}
