@@ -200,8 +200,3 @@ body {
 /* ================= 动效 ================= */
 .reveal { opacity: 0; transform: translateY(8px); transition: opacity var(--t-page) ease-out, transform var(--t-page) ease-out; }
 .reveal.is-in { opacity: 1; transform: none; }
-/* 网页没有 app 那样的「界面动效」开关，所以这里跟随系统的减少动态效果 */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; }
-  .reveal { opacity: 1; transform: none; }
-}

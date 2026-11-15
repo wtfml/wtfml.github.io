@@ -129,37 +129,131 @@ html:lang(en) .tagline, html:lang(en) .feature h2, html:lang(en) .page-intro h1,
 html:lang(en) .detail h2, html:lang(en) .all h2 { letter-spacing: .01em; }
 html:lang(en) .btn, html:lang(en) .nav-item { letter-spacing: .02em; }
 
-/* ===== 首页底部「继续下滑」：圆环随到底后的滚动量蓄满（--p 由 js/motion.js 写），箭头慢慢上下浮 ===== */
-.next-page { display: flex; flex-direction: column; align-items: center; gap: 12px; width: max-content; margin: -40px auto 0; padding: 8px 16px 64px;
-  color: var(--ink-2); font: 15px/1.4 var(--hand); letter-spacing: .08em; text-decoration: none; border-radius: var(--r-ctl); }
+/* ===== 首页底部「继续下滑」：一行字，下面一个手写箭头缓缓上下浮动；第一次滚进视口时一笔一笔写出来 ===== */
+.next-page { display: flex; flex-direction: column; align-items: center; gap: 18px; width: max-content; margin: -24px auto 0; padding: 8px 16px 84px;
+  color: var(--ink-2); font: 15px/1.4 var(--hand); letter-spacing: .2em; text-decoration: none; border-radius: var(--r-ctl); }
 .next-page:hover { color: var(--ink); }
-.next-ring { position: relative; width: 48px; height: 48px; }
-.next-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; }
-.next-ring circle { stroke-width: 1.5; }
-.next-ring .track { stroke: var(--line); }
-.next-ring .fill { stroke: var(--accent); stroke-width: 2.25; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p, 0)); transform: rotate(-90deg); transform-origin: center; }
-.next-arrow { stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; animation: next-float 2.4s ease-in-out infinite; }
-@keyframes next-float { 50% { transform: translateY(3px); } }
-html:lang(en) .next-page { letter-spacing: .02em; }
+.next-arrow { display: block; transform-origin: 50% 0; }  /* 箭头 svg 由 arrow_gen.py 生成后贴进 index.html */
+.next-arrow svg { display: block; fill: currentColor; }
+.arrow-pen { fill: none; stroke: #fff; stroke-width: 9; stroke-dasharray: 1; }  /* 遮罩里的笔路：dashoffset 1 → 0 就是把这一笔写出来 */
+html:lang(en) .next-page { letter-spacing: .04em; }
 
-/* 浮现：只有 motion.js 加了 js-reveal 才先藏起来；慢、轻，不弹跳 */
-.js-reveal .hero ~ main > .feature, .js-reveal .hero ~ main > .quote { transition: opacity 600ms var(--ease), transform 600ms var(--ease); }
-.js-reveal .hero ~ main > :is(.feature, .quote):not(.is-in) { opacity: 0; transform: translateY(12px); }
+/* ================= 动效（宣传页可以比 app 华丽；只动 transform / opacity / filter） =================
+ * 标记类由页头内联脚本加：js-motion 要动、is-ready 字体和首屏风景已到（最多等 1 秒）、js-reveal 滚动浮现、
+ * is-arriving 站内转场进来；img 加载完挂 is-loaded，滚进视口的段落由 motion.js 挂 is-in。
+ * 隐藏态都挂在这些类后面：JS 关了一个类都没有，页面就是最终的静态样子。
+ * 不认 prefers-reduced-motion（用户定的：系统关了动画效果的访客也看全部动效），所以没有 reduce 分支。
+ * 关键帧只写 from、填充用 backwards：动完效果撤掉，悬停的 transform 不会被锁住。 */
+:root { --enter: cubic-bezier(.16, 1, .3, 1); --wipe: cubic-bezier(.5, .05, .2, 1); --k: 1; --blur: 6px; --tilt: 14deg; --slide: 64px; --lift: 0px; --turn: -8deg; }
 
-/* 离开首页：整页磨砂再淡到底色，500ms 后跳转 */
-.leave-veil { position: fixed; inset: 0; z-index: 50; pointer-events: none; background: rgba(16, 18, 26, 0);
-  -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0); transition: background-color 500ms ease-in, backdrop-filter 500ms var(--ease), -webkit-backdrop-filter 500ms var(--ease); }
-.is-leaving .leave-veil { background: rgba(16, 18, 26, 1); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+@keyframes m-rise  { from { opacity: 0; transform: translateY(18px); filter: blur(var(--blur)); } }
+@keyframes m-drop  { from { opacity: 0; transform: translateY(-12px); } }
+@keyframes m-focus { from { opacity: 0; transform: scale(.97); filter: blur(calc(var(--blur) * 2)); } }
+@keyframes m-win   { from { transform: translateX(-100%); } }
+@keyframes m-ink   { from { transform: translateX(100%); filter: blur(var(--blur)); } }
+@keyframes m-scene { from { opacity: 0; } }  /* 清晰风景从底下同一张图的磨砂层里浮出来，看着就是由虚到实；只动透明度，弱显卡也不掉帧 */
+@keyframes m-peek  { from { opacity: 0; transform: perspective(1800px) translateY(96px) rotateX(var(--tilt)) scale(.94); } }
+/* 截图从所在一侧滑进：--dir 1 从右、-1 从左；手机改成从下往上（只改变量不换动画名，跨断点缩放窗口时不会重放） */
+@keyframes m-slide { from { opacity: 0; transform: perspective(1600px) translate(calc(var(--slide) * var(--dir, 1)), var(--lift)) rotateY(calc(var(--turn) * var(--dir, 1))); } }
+@keyframes m-fade  { from { opacity: 0; } }
 
-/* 从首页进功能详解：页头和各段依次浮现（标记由页头内联脚本从 sessionStorage 读，地址栏不留参数）；直接打开不动 */
-.from-home .page-intro, .from-home main > section { animation: enter-rise 600ms var(--ease) both; }
-.from-home main > section:nth-child(1) { animation-delay: 90ms; }
-.from-home main > section:nth-child(2) { animation-delay: 180ms; }
-.from-home main > section:nth-child(n+3) { animation-delay: 270ms; }
-@keyframes enter-rise { from { opacity: 0; transform: translateY(12px); } }
+/* —— 首屏入场：风景由虚到实；导航落下；WTFML 从左往右擦出；其余依次浮现；主截图带透视升起落平 —— */
+.js-motion:not(.is-ready) :is(.topbar, .intro > *, .page-intro h1) { opacity: 0; }
+.js-motion:not(.is-ready) .hero::before { opacity: 0; }
+.is-ready .hero::before { animation: m-scene 1800ms var(--enter) backwards; }
+.is-ready .topbar { animation: m-drop 800ms var(--enter) backwards; }
+/* 擦出：外框从左滑进、里面的字反向滑同样的距离，字原地不动、可见窗口扫过去；外框右缘一段渐隐当笔锋 */
+.wipe { display: inline-block; margin: -.3em -.45em -.3em -.15em; }
+.wipe > span { display: inline-block; padding: .3em .45em .3em .15em; }  /* 留出 Dancing Script 出框的笔画，不被遮罩切掉 */
+.js-motion .wipe { -webkit-mask: linear-gradient(90deg, #000 calc(100% - .4em), transparent) no-repeat; mask: linear-gradient(90deg, #000 calc(100% - .4em), transparent) no-repeat; }
+.is-ready .wipe { animation: m-win 1300ms var(--wipe) calc(var(--k) * 100ms) backwards; }
+.is-ready .wipe > span { animation: m-ink 1300ms var(--wipe) calc(var(--k) * 100ms) backwards; }
+.is-ready :where(.subtitle, .tagline, .intro > .btn, .note, .page-intro h1) { animation: m-rise 1000ms var(--enter) backwards; }
+.is-ready .subtitle { animation-delay: calc(var(--k) * 420ms); }
+.is-ready .tagline { animation-delay: calc(var(--k) * 540ms); }
+.is-ready .intro > .btn { animation-delay: calc(var(--k) * 660ms); }
+.is-ready .note { animation-delay: calc(var(--k) * 740ms); }
+.is-ready .page-intro h1 { animation-delay: calc(var(--k) * 120ms); }
+/* 截图都等图片到了再出来；主截图在首屏最后升起 */
+.js-motion .shot:not(.is-loaded) { opacity: 0; }
+.is-ready .peek.is-loaded { transform-origin: 50% 0; animation: m-peek 1500ms var(--enter) calc(var(--k) * 760ms) backwards; }
 
-@media (prefers-reduced-motion: reduce) {
-  .next-arrow, .from-home .page-intro, .from-home main > section { animation: none; }
-  .js-reveal .hero ~ main > :is(.feature, .quote) { opacity: 1; transform: none; transition: none; }
-  .leave-veil { display: none; }
+/* —— 首屏风景随滚动：慢半拍往下走（视差）并渐暗，过渡到正文的磨砂底；浏览器支持滚动时间线才有，全在合成线程上跑 —— */
+@keyframes m-drift { to { translate: 0 24vh; filter: opacity(.3); } }  /* 渐暗用 filter 的 opacity，不和入场的透明度抢 */
+@supports (animation-timeline: scroll()) {
+  .hero::before { animation: m-drift linear both; animation-timeline: scroll(root); animation-range: 0 100vh; }
+  .is-ready .hero::before { animation: m-scene 1800ms var(--enter) backwards, m-drift linear both; animation-timeline: auto, scroll(root); animation-range: normal, 0 100vh; }
 }
+
+/* —— 滚动分层浮现：标题 → 说明 → 要点 → 链接；截图从所在一侧带一点转角滑进；每日一言由虚到实 —— */
+.js-reveal main > :not(.is-in) :is(.feature-copy > *, .detail-copy > :not(.points), .points li, .all h2, .all li, .shot),
+.js-reveal main > :is(.quote, .closing):not(.is-in) > * { opacity: 0; }
+.is-in :is(.feature-copy > *, .detail-copy > :not(.points), .points li), .all.is-in :is(h2, li), .closing.is-in > * { animation: m-rise 1000ms var(--enter) calc(var(--i, 0) * 160ms + var(--d, 0ms)) backwards; }
+.quote.is-in > blockquote { animation: m-focus 1400ms var(--enter) calc(var(--i, 0) * 160ms) backwards; }
+.quote.is-in > figcaption { animation: m-rise 1000ms var(--enter) calc(var(--i, 0) * 160ms + 420ms) backwards; }
+:is(.feature-copy, .detail-copy) > :nth-child(2) { --d: 110ms; }
+:is(.feature-copy, .detail-copy) > :nth-child(3) { --d: 220ms; }
+.points li:nth-child(1) { --d: 240ms; } .points li:nth-child(2) { --d: 320ms; } .points li:nth-child(3) { --d: 400ms; }
+.all li { --d: 140ms; } .all li:nth-child(n+3) { --d: 200ms; } .all li:nth-child(n+5) { --d: 260ms; } .all li:nth-child(n+7) { --d: 320ms; } .all li:nth-child(n+9) { --d: 380ms; }
+.closing > :nth-child(2) { --d: 120ms; }
+.is-in .shot.is-loaded { animation: m-slide 1300ms var(--enter) calc(var(--i, 0) * 160ms + 160ms) backwards; }
+.flip .shot { --dir: -1; }
+main, .hero { overflow-x: clip; }  /* 截图滑进、风景入场放大时探出两侧，不撑出横向滚动条（clip 只裁横向，风景往下的渐隐照旧） */
+
+/* —— 悬停：主按钮上浮一点、亮起同色光晕（光晕是常驻的伪元素，只动它的透明度）；顶栏下划线从中间展开 —— */
+@media (hover: hover) {
+  .btn.primary { position: relative; transition: background var(--t-fast) var(--ease), transform 260ms var(--enter); }
+  .btn.primary::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0;
+    box-shadow: 0 14px 34px -8px var(--accent-fill), 0 0 26px rgba(183, 179, 238, .38); transition: opacity 260ms var(--ease); }
+  .btn.primary:hover { transform: translateY(-2px); }
+  .btn.primary:hover::after { opacity: 1; }
+  .btn.primary:hover:active { transform: translateY(1px); }
+  .topbar .nav-item::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 5px; height: 1.5px; border-radius: 1px;
+    background: currentColor; opacity: .75; transform: scaleX(0); transition: transform 320ms var(--enter); }
+  .topbar .nav-item:hover::after { transform: scaleX(1); }
+}
+.topbar .nav-item:focus-visible::after { transform: scaleX(1); }
+
+/* —— 换页像一直滚下去。磨砂风景是 body 的固定伪元素，两页同一张，全程不动，看上去是同一块玻璃上换了一页内容。
+ * 首页到底继续下滑（is-pulling，随 --p）：底部从下往上加深（.next-shade），箭头沉下去淡尽，本页内容上移淡去，
+ * 功能详解的页头影子（.next-ghost）从模糊到清晰淡入到它真实的位置；
+ * 全清晰时跳转，新页带 is-continued，页头原样出现，只有正文升上来。
+ * 点站内链接（is-leaving）：内容上移淡出，500ms 后跳转；新页内容从下方升上来（is-arriving）。 —— */
+@property --p { syntax: '<number>'; inherits: false; initial-value: 0; }  /* 蓄力进度，motion.js 只写在下面这几块上 */
+body > :is(header, main, .next-page, footer) { transition: transform 260ms var(--enter), opacity 260ms var(--enter); }
+.is-pulling body > :is(header, main, .next-page, footer) { transform: translateY(calc(var(--p, 0) * -64px)); opacity: calc(1 - var(--p, 0) * 1.15); }
+.next-ghost { position: fixed; inset: 0 0 auto; z-index: 5; pointer-events: none; visibility: hidden; opacity: 0;
+  transition: opacity 260ms var(--enter), transform 260ms var(--enter), filter 260ms var(--enter); }
+.next-ghost * { animation: none !important; }  /* 影子里复制的顶栏、标题不跟着本页的入场动画走 */
+.is-pulling .next-ghost { visibility: visible; opacity: calc(var(--p, 0) * 1.1 - .1); transform: translateY(calc((1 - var(--p, 0)) * 32px)); filter: blur(calc((1 - var(--p, 0)) * 10px)); }
+.is-continued :is(.topbar, .page-intro h1) { opacity: 1 !important; animation: none !important; }
+.is-continued.is-arriving body > header { animation: none; }
+/* 底部加深：从底边往上一层暗色，随 --p 变浓；继续下滑到达功能详解时从同样的浓度慢慢退掉，接得上 */
+.next-shade, .is-continued body::after { content: ""; position: fixed; inset: auto 0 0; height: 100vh; z-index: 4; pointer-events: none;
+  background: linear-gradient(to top, rgba(7, 9, 20, .94), rgba(7, 9, 20, .72) 30%, rgba(7, 9, 20, .3) 62%, rgba(7, 9, 20, 0)); }
+.next-shade { opacity: 0; visibility: hidden; transition: opacity 260ms var(--enter); }
+.is-pulling .next-shade { visibility: visible; opacity: var(--p, 0); }
+.is-continued body::after { opacity: 0; animation: m-shade 1300ms var(--enter) backwards; }
+@keyframes m-shade { from { opacity: 1; } }
+/* 箭头：比内容先淡尽（p≈.55），顺势往下沉、拉长一点 */
+.next-arrow { transition: transform 260ms var(--enter), opacity 260ms var(--enter); }
+.is-pulling .next-arrow { opacity: calc(1 - var(--p, 0) * 1.6); transform: translateY(calc(var(--p, 0) * 96px)) scaleY(calc(1 + var(--p, 0) * .35)); }
+/* 浮动：慢、轻，写完再开始；没滚到之前停着（paused 时连延迟都不走） */
+.js-motion .next-arrow svg { animation: arrow-float 3.6s cubic-bezier(.45, 0, .55, 1) 1.5s infinite; }
+@keyframes arrow-float { 0%, 100% { transform: translateY(-3px); } 50% { transform: translateY(5px); } }
+.js-motion .arrow-pen { animation: arrow-write 800ms var(--wipe) backwards; }
+#arrow-pen-1 .arrow-pen { animation-duration: 360ms; animation-delay: 700ms; }
+#arrow-pen-2 .arrow-pen { animation-duration: 460ms; animation-delay: 1000ms; }
+@keyframes arrow-write { from { stroke-dashoffset: 1; } }
+.js-reveal .next-page:not(.is-in) :is(svg, .arrow-pen) { animation-play-state: paused; }  /* 压过下面 is-arriving 的整体升入 */
+.is-leaving body > :is(header, main, .next-page, footer) { transform: translateY(-18vh); opacity: 0; transition: transform 520ms cubic-bezier(.5, 0, .75, 0), opacity 420ms ease-in; }
+@keyframes m-arrive { from { opacity: 0; transform: translateY(16vh); } }
+.is-arriving body > :is(header, main, footer) { animation: m-arrive 1100ms var(--enter) backwards; }
+/* 支持跨页视图过渡的浏览器（Chromium 126+、Safari 18.2+）里，跳转那一下的空档也交叉淡化，不闪底色 */
+@view-transition { navigation: auto; }
+
+/* —— 手机：模糊和转角收小，截图改成从下往上浮（单栏时左右滑没有方向感） —— */
+@media (max-width: 860px) {
+  :root { --blur: 0px; --tilt: 8deg; --slide: 0px; --lift: 40px; --turn: 0deg; }
+}
+

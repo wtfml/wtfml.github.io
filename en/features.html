@@ -11,7 +11,39 @@
 <link rel="icon" href="../assets/icon/wtfml.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../fonts/fonts.css">
 <link rel="stylesheet" href="../css/tokens.css">
-<script>try { if (sessionStorage.getItem('wtfml-enter')) { sessionStorage.removeItem('wtfml-enter'); document.documentElement.classList.add('from-home'); } } catch (e) {}</script>
+<script>
+  // 动效标记：要动就先藏起首屏，等字体和首屏风景到了（最多 1 秒）再入场；系统要求减少动态效果时一个类都不加，页面照静态显示
+  (function () {
+    var r = document.documentElement, come = false, done = false;
+    try { come = sessionStorage.getItem('wtfml-enter'); sessionStorage.removeItem('wtfml-enter'); } catch (e) {}
+    r.classList.add('js-motion', 'js-reveal');
+    if (come) r.classList.add('is-arriving');  // 从站内另一页转场过来：内容从下方接着升上来
+    if (come === 'next') r.classList.add('is-continued');  // 首页继续下滑过来：页头已在上一页淡入到位，不再入场
+    function mark(e) { if (e.target.tagName === 'IMG') e.target.classList.add('is-loaded'); }  // 截图加载完再淡入
+    document.addEventListener('load', mark, true); document.addEventListener('error', mark, true);  // 元素的 load 不经过 window，挂在 document 上捕获
+    function ready() {
+      if (done) return; done = true;
+      var k = Math.max(.3, Math.min(1, (1100 - performance.now()) / 650));  // 来得晚就按比例收紧错落，内容 1.5 秒内都能读到
+      if (k < 1) r.style.setProperty('--k', k.toFixed(2));
+      r.classList.add('is-ready');
+      document.dispatchEvent(new Event('wtfml-ready'));
+      setTimeout(function () { if (!window.wtfmlMotion) r.classList.remove('js-reveal'); }, 1500);  // motion.js 没跑起来就别藏着
+    }
+    setTimeout(ready, 1000);
+    document.addEventListener('DOMContentLoaded', function () {
+      var w = [], f = document.fonts;
+      // 页头里每段字按它实际用的字体和粗细去要分片，不多下一片
+      if (f && f.load) document.querySelectorAll('header *').forEach(function (el) {
+        for (var n = el.firstChild, s; n; n = n.nextSibling) if (n.nodeType === 3 && /\S/.test(n.data)) {
+          s = getComputedStyle(el); w.push(f.load(s.fontStyle + ' ' + s.fontWeight + ' 16px ' + s.fontFamily, n.data));
+        }
+      });
+      var m = /url\("?(.*?)"?\)/.exec(getComputedStyle(document.querySelector('.hero') || document.body, '::before').backgroundImage);
+      if (m) { var i = new Image(); i.src = m[1]; if (i.decode) w.push(i.decode()); }
+      Promise.all(w).then(ready, ready);
+    });
+  })();
+</script>
 <link rel="stylesheet" href="../css/site.css">
 </head>
 <body class="frost-bg">
@@ -140,5 +172,6 @@
 </footer>
 
 <script src="../js/lang.js"></script>
+<script src="../js/motion.js"></script>
 </body>
 </html>
