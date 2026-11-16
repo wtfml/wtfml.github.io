@@ -88,32 +88,109 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--focus); outline
 .page-intro { padding-block: clamp(32px, 6vh, 64px) 0; }  /* 只设上下，左右留给 .wrap */
 .page-intro h1 { margin: 0; font: 300 clamp(40px, 4.4vw, 60px)/1.2 var(--hand); letter-spacing: .08em; }
 .topbar .nav-item[aria-current="page"] { color: var(--hero-ink); }
-.detail { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: center; padding-top: 128px; scroll-margin-top: 24px; }
-main > .detail:first-child { padding-top: 80px; }  /* 页头只剩标题，第一段贴近些 */
-.detail.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
-.detail.flip .detail-copy { order: 2; }
-.detail.noshot { grid-template-columns: minmax(0, 1fr); }
-.detail.noshot .points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 40px; }
-.detail h2 { margin: 0 0 14px; font: 300 clamp(30px, 3vw, 40px)/1.25 var(--hand); letter-spacing: .08em; }
-.detail .lead { margin: 0; font-size: 17px; color: var(--ink-2); max-width: 24em; }
-.points { list-style: none; margin: 28px 0 0; padding: 0; }
-.points li { margin-top: 12px; font-size: 15px; line-height: 1.7; color: var(--ink-2); }
-.points b { margin-right: .6em; font-weight: 600; color: var(--ink); }
-.all { padding-top: 152px; }
-.all h2 { margin: 0 0 28px; font: 300 clamp(30px, 3vw, 40px)/1.25 var(--hand); letter-spacing: .08em; text-align: center; }
-.all ul { list-style: none; margin: 0 auto; padding: 0; max-width: 980px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 48px; }
-.all li { font-size: 15px; line-height: 1.7; color: var(--ink-2); }
-.all b { margin-right: .6em; font-weight: 600; color: var(--ink); }
+/* 详解页带人把启动器逛一遍：每段一句导语 + 一组截图（一张大图，其余用标签切换，一张图配一句图注）。
+ * 三种排法轮着来：d-wide 标题一行、大图通栏、标签横排在下；d-side 标题和标签一栏、大图在旁（flip 对调）；d-solo 单图居中。
+ * 标签由 gallery.js 生成，挂上 is-tabbed 才叠成一张；没有 JS 时 figure 照常排开，图注都在 */
+.detail { display: grid; gap: 0 64px; padding-top: 168px; scroll-margin-top: -112px; }  /* 跳锚点时让段标题落在视口上部，不是落在上方留白里 */
+main > .detail:first-child { padding-top: 72px; scroll-margin-top: -16px; }  /* 页头只剩标题，第一段贴近些 */
+.detail h2 { margin: 0 0 12px; font: 300 clamp(30px, 3vw, 40px)/1.25 var(--hand); letter-spacing: .08em; }
+.detail .lead { margin: 0; font-size: 17px; color: var(--ink-2); max-width: 26em; }
+.d-wide { grid-template-areas: "copy" "stage" "tabs"; }
+.d-wide .detail-copy { display: flex; align-items: baseline; justify-content: space-between; gap: 16px 56px; flex-wrap: wrap; margin-bottom: 36px; }
+.d-wide .detail-copy h2 { margin: 0; }
+.d-wide .lead { max-width: 34em; }
+.d-side { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); grid-template-rows: 1fr auto auto 1fr; grid-template-areas: ". stage" "copy stage" "tabs stage" ". stage"; }
+.d-side.flip { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); grid-template-areas: "stage ." "stage copy" "stage tabs" "stage ."; }
+.d-solo { grid-template-areas: "copy" "stage"; justify-items: center; text-align: center; }
+.d-solo .detail-copy { margin-bottom: 40px; }
+.d-solo .lead { margin-inline: auto; max-width: 34em; }
+.detail .lead { text-wrap: pretty; }  /* 别让最后一行只剩两三个字 */
+.d-solo .g-stage { width: min(100%, 940px); }
+.detail-copy { grid-area: copy; }
+.g-stage { grid-area: stage; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 32px 24px; align-content: start; }
+.g-item { margin: 0; min-width: 0; }
+.g-item:first-child { grid-column: 1 / -1; }  /* 没有 JS 时：第一张大图，其余排在下面 */
+.g-item figcaption { margin-top: 14px; font-size: 15px; line-height: 1.7; color: var(--ink-2); }
+.g-zoom { position: relative; display: block; border-radius: 12px; cursor: zoom-in; }
+.g-zoom:focus-visible { outline-offset: 4px; }
+/* 放大提示：右上角一枚小圆钮，指上去或键盘聚焦时出现 */
+.g-zoom::after { content: ""; position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 50%; opacity: 0; transform: scale(.85);
+  background: var(--glass) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E8E9F1' stroke-width='1.5' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='5.5'/%3E%3Cpath d='M14.5 14.5 19 19M10.5 8v5M8 10.5h5'/%3E%3C/svg%3E") center / 22px no-repeat;
+  box-shadow: var(--glass-shadow), inset 0 0 0 1px var(--glass-edge); transition: opacity 220ms var(--ease), transform 320ms var(--enter); }
+.g-zoom:hover::after, .g-zoom:focus-visible::after { opacity: 1; transform: none; }
+.d-solo figcaption { max-width: 34em; margin-inline: auto; }
+
+/* —— 有 JS：同一段的图叠在一格里，只显示选中的那张；图注挪进标签 —— */
+.is-tabbed .g-stage { display: grid; grid-template-columns: minmax(0, 1fr); align-self: center; }
+.is-tabbed .g-item { grid-area: 1 / 1; }
+.is-tabbed .g-item:not(.is-on, .is-out) { display: none; }  /* 没轮到的不排版，图也不先下载 */
+.is-tabbed .g-item figcaption { display: none; }
+.is-tabbed .g-item.is-out { pointer-events: none; animation: g-out 400ms var(--ease) forwards; }
+.is-tabbed .g-item.is-on { position: relative; z-index: 1; animation: g-in 700ms var(--enter); }
+@keyframes g-in  { from { opacity: 0; transform: perspective(1600px) translateX(calc(var(--gd, 0) * 40px)) rotateY(calc(var(--gd, 0) * -4deg)) scale(.985); } }
+@keyframes g-out { to { opacity: 0; transform: translateX(calc(var(--gd, 0) * 28px)) scale(.985); } }
+.g-item .shot { transition: opacity 360ms var(--ease); }
+.g-tabs { grid-area: tabs; display: grid; gap: 4px; margin-top: 28px; }
+.d-wide .g-tabs { grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: 8px; }
+.g-tab { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; align-items: center; width: 100%; padding: 8px; border: 0; border-radius: 12px;
+  background: transparent; color: var(--ink-2); font: 14.5px/1.6 var(--ui); text-align: left; cursor: pointer;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease); }
+.d-wide .g-tab { grid-template-columns: 88px minmax(0, 1fr); gap: 12px; }  /* 横排四个时缩略图收小，给图注多留一点 */
+.d-wide .g-thumb { width: 88px; height: 60px; }
+.g-tab:hover { background: var(--fill-hover); color: var(--ink); }
+.g-tab[aria-selected="true"] { background: var(--accent-soft); color: var(--ink); }
+.g-tab:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.g-thumb { display: block; width: 112px; height: 76px; border-radius: 6px; box-shadow: 0 0 0 1px var(--line-2); opacity: .62; transition: opacity 220ms var(--ease); }
+.g-tab:hover .g-thumb, .g-tab[aria-selected="true"] .g-thumb { opacity: 1; }
+
+/* —— 放大层：整屏压暗，图从页面上的位置放大出来（gallery.js 用 WAAPI 做 FLIP），左右翻、Esc 关 —— */
+.lb-open { overflow: hidden; }
+.lb { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; overflow: hidden;
+  background: rgba(8, 9, 14, .9); color: var(--ink); }
+.lb::backdrop { background: transparent; }
+.lb[open] { display: grid; place-items: center; animation: m-fade 360ms var(--enter); }
+.lb.is-closing { opacity: 0; transition: opacity 360ms ease-in; }
+.lb-fig { margin: 0; display: grid; justify-items: center; gap: 18px; padding: 24px 88px; }
+.lb-img { display: block; width: min(calc(100vw - 176px), calc((100vh - 140px) * 1.4737), 1680px); height: auto; aspect-ratio: 1120 / 760; border-radius: 12px; background: #141622;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, .6), 0 0 0 1px var(--line-2); }
+.lb-fig figcaption { display: flex; gap: 20px; align-items: baseline; justify-content: center; max-width: 46em; text-align: center; font-size: 15px; line-height: 1.6; color: var(--ink-2); }
+.lb-count { flex: none; font-size: 13px; color: var(--ink-3); }
+.lb-btn { position: absolute; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; color: var(--ink);
+  background: var(--glass); box-shadow: var(--glass-shadow), inset 0 0 0 1px var(--glass-edge); transition: background var(--t-fast) var(--ease), transform 260ms var(--enter); }
+.lb-btn:hover { background: rgba(56, 58, 78, .86); }
+.lb-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.lb-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.lb-btn[hidden] { display: none; }
+.lb-prev { left: 24px; top: calc(50% - 24px); }
+.lb-next { right: 24px; top: calc(50% - 24px); }
+.lb-prev:hover { transform: translateX(-2px); }
+.lb-next:hover { transform: translateX(2px); }
+.lb-close { top: 20px; right: 20px; }
 
 @media (max-width: 860px) {
   .feature + .feature { padding-top: 112px; }
   .closing { padding: 112px 0 88px; }
-  .detail, .detail.flip { grid-template-columns: 1fr; gap: 28px; padding-top: 88px; }
-  .detail.flip .detail-copy { order: 0; }
-  main > .detail:first-child { padding-top: 48px; }
-  .detail.noshot .points { grid-template-columns: 1fr; }
-  .all { padding-top: 112px; }
-  .all ul { grid-template-columns: 1fr; }
+  /* 单栏：标题、大图、标签自上而下；标签竖排，缩略图收小 */
+  .detail, .d-side, .d-side.flip { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; grid-template-areas: "copy" "stage" "tabs"; padding-top: 112px; }
+  main > .detail:first-child { padding-top: 44px; }
+  .detail { scroll-margin-top: -72px; }
+  main > .detail:first-child { scroll-margin-top: 0; }
+  .detail-copy, .d-solo .detail-copy, .d-wide .detail-copy { display: block; margin-bottom: 24px; }
+  .d-wide .detail-copy h2 { margin-bottom: 12px; }
+  .d-solo { justify-items: stretch; text-align: left; }
+  .d-solo .lead, .d-solo figcaption { margin-inline: 0; }
+  .g-stage { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .g-tabs, .d-wide .g-tabs { grid-template-columns: minmax(0, 1fr); gap: 2px; margin-top: 16px; }
+  .g-tab, .d-wide .g-tab { grid-template-columns: 84px minmax(0, 1fr); gap: 12px; padding: 6px; font-size: 14px; }
+  .g-thumb, .d-wide .g-thumb { width: 84px; height: 57px; }
+  .g-zoom::after { display: none; }  /* 触屏没有悬停，提示钮不出现 */
+  .lb-fig { padding: 64px 12px 96px; gap: 14px; }
+  .lb-img { width: min(calc(100vw - 24px), calc((100vh - 200px) * 1.4737)); }
+  .lb-fig figcaption { flex-direction: column; align-items: center; gap: 4px; font-size: 14px; padding-inline: 8px; }
+  .lb-prev, .lb-next { top: auto; bottom: 24px; }
+  .lb-prev { left: calc(50% - 64px); }
+  .lb-next { right: calc(50% - 64px); }
+  .lb-close { top: 12px; right: 12px; }
 }
 
 @media (max-width: 420px) {
@@ -126,7 +203,7 @@ main > .detail:first-child { padding-top: 80px; }  /* 页头只剩标题，第�
 
 /* 英文页：中文用的宽字距放到拉丁字母上太散，收到 .01em；正文和按钮也收紧 */
 html:lang(en) .tagline, html:lang(en) .feature h2, html:lang(en) .page-intro h1,
-html:lang(en) .detail h2, html:lang(en) .all h2 { letter-spacing: .01em; }
+html:lang(en) .detail h2 { letter-spacing: .01em; }
 html:lang(en) .btn, html:lang(en) .nav-item { letter-spacing: .02em; }
 
 /* ===== 首页底部「继续下滑」：一行字，下面一个手写箭头缓缓上下浮动；第一次滚进视口时一笔一笔写出来 ===== */
@@ -186,18 +263,22 @@ html:lang(en) .next-page { letter-spacing: .04em; }
 }
 
 /* —— 滚动分层浮现：标题 → 说明 → 要点 → 链接；截图从所在一侧带一点转角滑进；每日一言由虚到实 —— */
-.js-reveal main > :not(.is-in) :is(.feature-copy > *, .detail-copy > :not(.points), .points li, .all h2, .all li, .shot),
+.js-reveal main > :not(.is-in) :is(.feature-copy > *, .detail-copy > *, .g-tab, .d-solo figcaption, .shot),
 .js-reveal main > :is(.quote, .closing):not(.is-in) > * { opacity: 0; }
-.is-in :is(.feature-copy > *, .detail-copy > :not(.points), .points li), .all.is-in :is(h2, li), .closing.is-in > * { animation: m-rise 1000ms var(--enter) calc(var(--i, 0) * 160ms + var(--d, 0ms)) backwards; }
+.is-in :is(.feature-copy > *, .detail-copy > *, .g-tab, .d-solo figcaption), .closing.is-in > * { animation: m-rise 1000ms var(--enter) calc(var(--i, 0) * 160ms + var(--d, 0ms)) backwards; }
 .quote.is-in > blockquote { animation: m-focus 1400ms var(--enter) calc(var(--i, 0) * 160ms) backwards; }
 .quote.is-in > figcaption { animation: m-rise 1000ms var(--enter) calc(var(--i, 0) * 160ms + 420ms) backwards; }
 :is(.feature-copy, .detail-copy) > :nth-child(2) { --d: 110ms; }
 :is(.feature-copy, .detail-copy) > :nth-child(3) { --d: 220ms; }
-.points li:nth-child(1) { --d: 240ms; } .points li:nth-child(2) { --d: 320ms; } .points li:nth-child(3) { --d: 400ms; }
-.all li { --d: 140ms; } .all li:nth-child(n+3) { --d: 200ms; } .all li:nth-child(n+5) { --d: 260ms; } .all li:nth-child(n+7) { --d: 320ms; } .all li:nth-child(n+9) { --d: 380ms; }
+/* 标签跟在大图后面一个个浮起；单图那段的图注在图后 */
+.g-tab:nth-child(1) { --d: 280ms; } .g-tab:nth-child(2) { --d: 360ms; } .g-tab:nth-child(3) { --d: 440ms; } .g-tab:nth-child(4) { --d: 520ms; }
+.d-solo figcaption { --d: 520ms; }
 .closing > :nth-child(2) { --d: 120ms; }
 .is-in .shot.is-loaded { animation: m-slide 1300ms var(--enter) calc(var(--i, 0) * 160ms + 160ms) backwards; }
 .flip .shot { --dir: -1; }
+.is-in .g-item + .g-item .shot.is-loaded { animation: none; }  /* 后几张是点标签时才下载的，只淡入，不再侧滑 */
+/* 通栏和单图那两段大图从下方升起（同首屏主截图那一路，透视轻一些） */
+:is(.d-wide, .d-solo) .shot { --slide: 0px; --lift: 72px; --turn: 0deg; }
 main, .hero { overflow-x: clip; }  /* 截图滑进、风景入场放大时探出两侧，不撑出横向滚动条（clip 只裁横向，风景往下的渐隐照旧） */
 
 /* —— 悬停：主按钮上浮一点、亮起同色光晕（光晕是常驻的伪元素，只动它的透明度）；顶栏下划线从中间展开 —— */

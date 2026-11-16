@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WTFML 功能详解</title>
-<meta name="description" content="WTFML 的外观、安装、整合包、实例、智能体与工具箱。">
+<meta name="description" content="WTFML 的外观、安装、整合包、实例、服务端、智能体与工具箱。">
 <link rel="alternate" hreflang="zh-CN" href="https://wtfml.github.io/features.html">
 <link rel="alternate" hreflang="en" href="https://wtfml.github.io/en/features.html">
 <link rel="alternate" hreflang="x-default" href="https://wtfml.github.io/features.html">
@@ -77,99 +77,144 @@
 </header>
 
 <main class="wrap">
-  <section class="detail" id="appearance" aria-labelledby="h-appearance">
+  <section class="detail d-wide" id="appearance" aria-labelledby="h-appearance">
     <div class="detail-copy">
       <h2 id="h-appearance">外观</h2>
-      <p class="lead">内置暮色雪山、冰川碧湖、落日海崖三套风景主题，界面通体磨砂，可跟随系统深浅色。</p>
-      <ul class="points">
-        <li><b>自定义</b>背景图、主题色与文字不透明度均可调整。</li>
-        <li><b>主页问候</b>问候语随时段变化，下方附一句每日一言。</li>
-        <li><b>即时保存</b>设置修改后即时保存，无需点击「应用」。</li>
-      </ul>
+      <p class="lead">三套风景主题，界面通体磨砂，可跟随系统深浅色。</p>
     </div>
-    <img class="shot" src="assets/shots/themes.webp" alt="同一个主页在暮色雪山、冰川碧湖、落日海崖三套主题下的样子" width="1125" height="774" loading="lazy">
+    <div class="g-stage">
+      <figure class="g-item" data-thumb="assets/shots/tour/look-home-dark-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/look-home-dark@2x.webp"><img class="shot" src="assets/shots/tour/look-home-dark.webp" alt="暮色雪山主题的主页" width="1120" height="760"></a>
+        <figcaption>暮色雪山：出厂默认主题，主页显示当前实例，下方列出最近与收藏的实例。</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="assets/shots/tour/look-home-ocean-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/look-home-ocean@2x.webp"><img class="shot" src="assets/shots/tour/look-home-ocean.webp" alt="落日海崖主题的主页" width="1120" height="760" loading="lazy"></a>
+        <figcaption>落日海崖：换主题时风景与主色一起更换。</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="assets/shots/tour/look-home-emerald-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/look-home-emerald@2x.webp"><img class="shot" src="assets/shots/tour/look-home-emerald.webp" alt="冰川碧湖主题的主页" width="1120" height="760" loading="lazy"></a>
+        <figcaption>冰川碧湖：浅色主题，跟随系统时在浅色模式下使用。</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="assets/shots/tour/look-settings-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/look-settings@2x.webp"><img class="shot" src="assets/shots/tour/look-settings.webp" alt="设置页的个性化分栏" width="1120" height="760" loading="lazy"></a>
+        <figcaption>个性化设置可调整背景图、摆放方式、主题色与文字不透明度。</figcaption>
+      </figure>
+    </div>
   </section>
 
-  <section class="detail flip" id="install" aria-labelledby="h-install">
+  <section class="detail d-side" id="install" aria-labelledby="h-install">
     <div class="detail-copy">
       <h2 id="h-install">安装与下载</h2>
-      <p class="lead">可安装原版、Fabric、Quilt、Forge、NeoForge 客户端，以及 Paper、Purpur、Spigot 服务端。</p>
-      <ul class="points">
-        <li><b>下载</b>支持并发、限速、代理与断点续传。</li>
-        <li><b>文件复用</b>已有文件先行校验，可用则不再重复下载。</li>
-        <li><b>安全校验</b>无法校验完整性的模组文件不会写入。</li>
-      </ul>
+      <p class="lead">安装原版、Fabric、Quilt、Forge、NeoForge 客户端与 Paper、Purpur、Spigot 服务端；下载支持并发、断点续传、限速与代理。</p>
     </div>
-    <img class="shot" src="assets/shots/shot-download.webp" alt="下载页" width="1125" height="774" loading="lazy">
+    <div class="g-stage">
+      <figure class="g-item" data-thumb="assets/shots/tour/install-loader-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/install-loader@2x.webp"><img class="shot" src="assets/shots/tour/install-loader.webp" alt="安装游戏时选择模组加载器" width="1120" height="760" loading="lazy"></a>
+        <figcaption>选定 Fabric 后，与之不兼容的 Forge、NeoForge、OptiFine 随即标灰。</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="assets/shots/tour/install-tasks-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/install-tasks@2x.webp"><img class="shot" src="assets/shots/tour/install-tasks.webp" alt="活动中心的任务列表" width="1120" height="760" loading="lazy"></a>
+        <figcaption>活动中心列出进行中与已完成的任务，显示进度和所在步骤。</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="assets/shots/tour/install-java-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/install-java@2x.webp"><img class="shot" src="assets/shots/tour/install-java.webp" alt="Java 管理页" width="1120" height="760" loading="lazy"></a>
+        <figcaption>Java 管理识别出本机的 Java 21、17、11，缺少的版本可从 Adoptium 下载。</figcaption>
+      </figure>
+    </div>
   </section>
 
-  <section class="detail noshot" id="modpack" aria-labelledby="h-modpack">
+  <section class="detail d-side flip" id="modpack" aria-labelledby="h-modpack">
     <div class="detail-copy">
       <h2 id="h-modpack">整合包</h2>
-      <p class="lead">可导入 ZIP、mrpack、CurseForge 导出包与 MultiMC / Prism 实例。</p>
-      <ul class="points">
-        <li><b>更多格式</b>安装 7-Zip 后可导入 RAR 与 7z 整合包。</li>
-        <li><b>导入检查</b>导入前识别游戏版本与加载器，提示潜在冲突。</li>
-        <li><b>安全导出</b>导出的整合包不含账号信息。</li>
-      </ul>
+      <p class="lead">可导入 ZIP、mrpack、CurseForge 导出包与 MultiMC / Prism 实例，装有 7-Zip 时另支持 RAR 与 7z；导出的整合包不含账号信息。</p>
+    </div>
+    <div class="g-stage">
+      <figure class="g-item" data-thumb="assets/shots/tour/pack-import-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/pack-import@2x.webp"><img class="shot" src="assets/shots/tour/pack-import.webp" alt="导入整合包前的确认框" width="1120" height="760" loading="lazy"></a>
+        <figcaption>导入前识别游戏版本与加载器，列出要下载的文件数，并提示模组冲突。</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="assets/shots/tour/pack-export-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/pack-export@2x.webp"><img class="shot" src="assets/shots/tour/pack-export.webp" alt="导出整合包时的提示框" width="1120" height="760" loading="lazy"></a>
+        <figcaption>导出时列出查不到出处的文件，确认后原样打进包里。</figcaption>
+      </figure>
     </div>
   </section>
 
-  <section class="detail" id="instances" aria-labelledby="h-instances">
+  <section class="detail d-wide" id="instances" aria-labelledby="h-instances">
     <div class="detail-copy">
       <h2 id="h-instances">实例与升级</h2>
-      <p class="lead">实例可分组、收藏；模组、资源包、光影、数据包、存档与服务器列表集中管理。</p>
-      <ul class="points">
-        <li><b>安全升级</b>原地升级前先做完整快照并校验，出现问题可以回滚。</li>
-        <li><b>备份</b>支持世界备份与完整实例快照。</li>
-        <li><b>删除保护</b>删除的实例移入回收站，且需二次确认。</li>
-      </ul>
+      <p class="lead">模组、资源包、光影、数据包、存档与服务器列表集中管理；删除实例需二次确认，并移入 Windows 回收站。</p>
     </div>
-    <img class="shot" src="assets/shots/shot-library.webp" alt="管理页：实例列表与分组" width="1125" height="774" loading="lazy">
+    <div class="g-stage">
+      <figure class="g-item" data-thumb="assets/shots/tour/inst-upgrade-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/inst-upgrade@2x.webp"><img class="shot" src="assets/shots/tour/inst-upgrade.webp" alt="实例的版本升级页" width="1120" height="760" loading="lazy"></a>
+        <figcaption>升级前逐个评估模组能否沿用；可另建升级副本，也可先做完整快照再原地升级，可以回滚。</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="assets/shots/tour/inst-mods-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/inst-mods@2x.webp"><img class="shot" src="assets/shots/tour/inst-mods.webp" alt="实例的模组列表" width="1120" height="760" loading="lazy"></a>
+        <figcaption>模组可搜索，按启用或禁用筛选，逐个开关或删除。</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="assets/shots/tour/inst-saves-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/inst-saves@2x.webp"><img class="shot" src="assets/shots/tour/inst-saves.webp" alt="实例的存档列表" width="1120" height="760" loading="lazy"></a>
+        <figcaption>存档页列出实例内的世界，可做世界备份或导入世界。</figcaption>
+      </figure>
+    </div>
   </section>
 
-  <section class="detail flip" id="agent" aria-labelledby="h-agent">
+  <section class="detail d-side" id="server" aria-labelledby="h-server">
+    <div class="detail-copy">
+      <h2 id="h-server">服务端</h2>
+      <p class="lead">服务端的控制台、常用设置、玩家名单与世界备份集中在一处。</p>
+    </div>
+    <div class="g-stage">
+      <figure class="g-item" data-thumb="assets/shots/tour/server-console-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/server-console@2x.webp"><img class="shot" src="assets/shots/tour/server-console.webp" alt="服务端控制台的启动日志" width="1120" height="760" loading="lazy"></a>
+        <figcaption>控制台实时显示日志，可按关键字搜索。</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="assets/shots/tour/server-props-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/server-props@2x.webp"><img class="shot" src="assets/shots/tour/server-props.webp" alt="服务端的常用设置" width="1120" height="760" loading="lazy"></a>
+        <figcaption>server.properties 的常用项逐条附说明，也可切到原始文本直接编辑。</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="assets/shots/tour/server-players-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/server-players@2x.webp"><img class="shot" src="assets/shots/tour/server-players.webp" alt="服务端的白名单" width="1120" height="760" loading="lazy"></a>
+        <figcaption>「玩家」一栏管理白名单、管理员与封禁名单。</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="detail d-solo" id="agent" aria-labelledby="h-agent">
     <div class="detail-copy">
       <h2 id="h-agent">智能体</h2>
-      <p class="lead">接入兼容 OpenAI 接口的模型，协助分析日志与崩溃报告。</p>
-      <ul class="points">
-        <li><b>围绕实例</b>对话锁定所选实例，可查看其目录与配置。</li>
-        <li><b>逐次确认</b>写入、删除等操作均需用户逐次批准。</li>
-        <li><b>写前备份</b>修改文件前先行备份，可以回退。</li>
-      </ul>
+      <p class="lead">接入兼容 OpenAI 接口的模型，围绕所选实例分析日志与崩溃报告。</p>
     </div>
-    <img class="shot" src="assets/shots/shot-agent.webp" alt="智能体页：围绕所选实例的对话" width="1125" height="774" loading="lazy">
+    <div class="g-stage">
+      <figure class="g-item">
+        <a class="g-zoom" href="assets/shots/tour/agent-confirm@2x.webp"><img class="shot" src="assets/shots/tour/agent-confirm.webp" alt="智能体写入文件前的确认卡" width="1120" height="760" loading="lazy"></a>
+        <figcaption>写入前弹出确认：列出目标文件与改动，原文件另存为 .bak，可以拒绝或只允许本次。</figcaption>
+      </figure>
+    </div>
   </section>
 
-  <section class="detail" id="toolbox" aria-labelledby="h-toolbox">
+  <section class="detail d-side flip" id="toolbox" aria-labelledby="h-toolbox">
     <div class="detail-copy">
       <h2 id="h-toolbox">工具箱</h2>
       <p class="lead">收录附魔、坐标、信标、酿造、旗帜、彩色文本、服务器延迟等常用工具。</p>
-      <ul class="points">
-        <li><b>附魔助手</b>计算铁砧经验惩罚与最优合成顺序。</li>
-        <li><b>坐标换算</b>解析 F3+C 坐标，换算下界与主世界位置。</li>
-        <li><b>旗帜设计</b>预览图案，列出合成步骤、材料与指令。</li>
-      </ul>
     </div>
-    <img class="shot" src="assets/shots/shot-toolbox.webp" alt="工具箱目录" width="1125" height="774" loading="lazy">
+    <div class="g-stage">
+      <figure class="g-item" data-thumb="assets/shots/tour/tool-enchant-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/tool-enchant@2x.webp"><img class="shot" src="assets/shots/tour/tool-enchant.webp" alt="工具箱里的附魔助手" width="1120" height="760" loading="lazy"></a>
+        <figcaption>附魔助手给出合并顺序与每一步的经验花费，每步都在 39 级以内。</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="assets/shots/tour/tool-banner-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/tool-banner@2x.webp"><img class="shot" src="assets/shots/tour/tool-banner.webp" alt="工具箱里的旗帜设计" width="1120" height="760" loading="lazy"></a>
+        <figcaption>旗帜设计逐层叠加图案，列出合成步骤、材料与指令。</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="assets/shots/tour/tool-coords-t.webp">
+        <a class="g-zoom" href="assets/shots/tour/tool-coords@2x.webp"><img class="shot" src="assets/shots/tour/tool-coords.webp" alt="工具箱里的坐标换算" width="1120" height="760" loading="lazy"></a>
+        <figcaption>坐标换算给出对应的下界位置、所在区块与 tp 命令。</figcaption>
+      </figure>
+    </div>
   </section>
-
-  <section class="all" aria-labelledby="h-all">
-    <h2 id="h-all">全部功能</h2>
-    <ul>
-      <li><b>一站式安装</b>原版、Fabric、Quilt、Forge、NeoForge 客户端，以及 Paper、Purpur、Spigot 服务端。</li>
-      <li><b>整合包</b>导入 ZIP、mrpack、CurseForge 导出包与 MultiMC / Prism 实例；安装 7-Zip 后另支持 RAR、7z。</li>
-      <li><b>实例</b>分组、收藏；模组、资源包、光影、数据包、存档、服务器列表集中管理。</li>
-      <li><b>安全升级</b>更换游戏版本时可另存副本或原地升级；原地升级前先做完整快照并校验，可以回滚。</li>
-      <li><b>下载</b>并发、断点续传、限速、代理；已有文件先行校验，可用则不再重复下载。</li>
-      <li><b>Java</b>识别本机已安装的 Java，缺少时从 Adoptium 下载。</li>
-      <li><b>服务端</b>控制台、server.properties 编辑、白名单 / OP / 封禁、备份。</li>
-      <li><b>工具箱</b>附魔顺序、坐标换算、信标、酿造、旗帜、彩色文本、服务器延迟等。</li>
-      <li><b>智能体</b>接入兼容 OpenAI 接口的模型，协助分析日志与崩溃报告；所有修改均需用户确认。</li>
-      <li><b>外观</b>三套风景主题，界面通体磨砂，背景图与主题色均可自定义。</li>
-    </ul>
-  </section>
-
   <section class="closing" aria-label="下载">
     <a class="btn primary lg" href="https://github.com/wtfml/WTFML/releases/latest">
       <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5M5 19.5h14"/></svg>下载最新版</a>
@@ -183,6 +228,7 @@
   <p>Minecraft 是 Mojang Studios 的商标，WTFML 与之无隶属关系。</p>
 </footer>
 
+<script src="js/gallery.js"></script>
 <script src="js/lang.js"></script>
 <script src="js/motion.js"></script>
 </body>

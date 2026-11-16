@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WTFML Features</title>
-<meta name="description" content="Appearance, installation, modpacks, instances, agent and toolbox in WTFML.">
+<meta name="description" content="Appearance, installation, modpacks, instances, servers, agent and toolbox in WTFML.">
 <link rel="alternate" hreflang="zh-CN" href="https://wtfml.github.io/features.html">
 <link rel="alternate" hreflang="en" href="https://wtfml.github.io/en/features.html">
 <link rel="alternate" hreflang="x-default" href="https://wtfml.github.io/features.html">
@@ -65,99 +65,144 @@
 </header>
 
 <main class="wrap">
-  <section class="detail" id="appearance" aria-labelledby="h-appearance">
+  <section class="detail d-wide" id="appearance" aria-labelledby="h-appearance">
     <div class="detail-copy">
       <h2 id="h-appearance">Appearance</h2>
-      <p class="lead">Three scenic themes, Alpine Dusk, Glacier Lake and Sunset Cliffs, over a frosted interface that follows the system light or dark mode.</p>
-      <ul class="points">
-        <li><b>Customization</b>Background image, accent color and text opacity are adjustable.</li>
-        <li><b>Home Greeting</b>The greeting follows the time of day, with a quote of the day below.</li>
-        <li><b>Instant Saving</b>Settings are saved as they change, with no Apply button.</li>
-      </ul>
+      <p class="lead">Three scenic themes over a frosted interface that can follow the system light or dark mode.</p>
     </div>
-    <img class="shot" src="../assets/shots/themes.webp" alt="The home page in all three themes" width="1125" height="774" loading="lazy">
+    <div class="g-stage">
+      <figure class="g-item" data-thumb="../assets/shots/tour/look-home-dark-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/look-home-dark@2x.webp"><img class="shot" src="../assets/shots/tour/look-home-dark.webp" alt="The home page in Alpine Dusk" width="1120" height="760"></a>
+        <figcaption>Alpine Dusk: the default theme. The home page shows the current instance, with recent and favorite instances below.</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="../assets/shots/tour/look-home-ocean-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/look-home-ocean@2x.webp"><img class="shot" src="../assets/shots/tour/look-home-ocean.webp" alt="The home page in Sunset Cliffs" width="1120" height="760" loading="lazy"></a>
+        <figcaption>Sunset Cliffs: switching themes changes the scenery and the accent color together.</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="../assets/shots/tour/look-home-emerald-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/look-home-emerald@2x.webp"><img class="shot" src="../assets/shots/tour/look-home-emerald.webp" alt="The home page in Glacier Lake" width="1120" height="760" loading="lazy"></a>
+        <figcaption>Glacier Lake: the light theme, used in light mode when following the system.</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="../assets/shots/tour/look-settings-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/look-settings@2x.webp"><img class="shot" src="../assets/shots/tour/look-settings.webp" alt="Personalization settings" width="1120" height="760" loading="lazy"></a>
+        <figcaption>Personalization settings adjust the background image and its fit, the accent color and the text opacity.</figcaption>
+      </figure>
+    </div>
   </section>
 
-  <section class="detail flip" id="install" aria-labelledby="h-install">
+  <section class="detail d-side" id="install" aria-labelledby="h-install">
     <div class="detail-copy">
       <h2 id="h-install">Installation and Downloads</h2>
-      <p class="lead">Installs Vanilla, Fabric, Quilt, Forge and NeoForge clients, as well as Paper, Purpur and Spigot servers.</p>
-      <ul class="points">
-        <li><b>Downloads</b>Concurrent and resumable, with speed limit and proxy support.</li>
-        <li><b>File Reuse</b>Existing files are verified first and reused when intact.</li>
-        <li><b>Integrity Checks</b>Mod files whose integrity cannot be verified are not written.</li>
-      </ul>
+      <p class="lead">Installs Vanilla, Fabric, Quilt, Forge and NeoForge clients as well as Paper, Purpur and Spigot servers. Downloads are concurrent and resumable, with speed limit and proxy support.</p>
     </div>
-    <img class="shot" src="../assets/shots/shot-download.webp" alt="Download page" width="1125" height="774" loading="lazy">
+    <div class="g-stage">
+      <figure class="g-item" data-thumb="../assets/shots/tour/install-loader-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/install-loader@2x.webp"><img class="shot" src="../assets/shots/tour/install-loader.webp" alt="Choosing a mod loader while installing the game" width="1120" height="760" loading="lazy"></a>
+        <figcaption>Once Fabric is chosen, the incompatible Forge, NeoForge and OptiFine are grayed out.</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="../assets/shots/tour/install-tasks-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/install-tasks@2x.webp"><img class="shot" src="../assets/shots/tour/install-tasks.webp" alt="Tasks in the activity center" width="1120" height="760" loading="lazy"></a>
+        <figcaption>The activity center lists running and finished tasks with their progress and current step.</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="../assets/shots/tour/install-java-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/install-java@2x.webp"><img class="shot" src="../assets/shots/tour/install-java.webp" alt="Java management" width="1120" height="760" loading="lazy"></a>
+        <figcaption>Java management finds the installed Java 21, 17 and 11; missing versions can be downloaded from Adoptium.</figcaption>
+      </figure>
+    </div>
   </section>
 
-  <section class="detail noshot" id="modpack" aria-labelledby="h-modpack">
+  <section class="detail d-side flip" id="modpack" aria-labelledby="h-modpack">
     <div class="detail-copy">
       <h2 id="h-modpack">Modpacks</h2>
-      <p class="lead">Imports ZIP, mrpack and CurseForge packs as well as MultiMC / Prism instances.</p>
-      <ul class="points">
-        <li><b>More Formats</b>RAR and 7z packs can be imported once 7-Zip is installed.</li>
-        <li><b>Import Checks</b>The game version and loader are identified before import; possible conflicts are reported.</li>
-        <li><b>Safe Export</b>Exported modpacks contain no account information.</li>
-      </ul>
+      <p class="lead">Imports ZIP, mrpack and CurseForge packs as well as MultiMC / Prism instances, plus RAR and 7z when 7-Zip is installed. Exported modpacks contain no account information.</p>
+    </div>
+    <div class="g-stage">
+      <figure class="g-item" data-thumb="../assets/shots/tour/pack-import-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/pack-import@2x.webp"><img class="shot" src="../assets/shots/tour/pack-import.webp" alt="Confirmation before importing a modpack" width="1120" height="760" loading="lazy"></a>
+        <figcaption>Before import, the game version and loader are identified, the files to download are counted and mod conflicts are flagged.</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="../assets/shots/tour/pack-export-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/pack-export@2x.webp"><img class="shot" src="../assets/shots/tour/pack-export.webp" alt="Notice while exporting a modpack" width="1120" height="760" loading="lazy"></a>
+        <figcaption>On export, files with no known source are listed and, once confirmed, packed as they are.</figcaption>
+      </figure>
     </div>
   </section>
 
-  <section class="detail" id="instances" aria-labelledby="h-instances">
+  <section class="detail d-wide" id="instances" aria-labelledby="h-instances">
     <div class="detail-copy">
       <h2 id="h-instances">Instances and Upgrades</h2>
-      <p class="lead">Instances can be grouped and favorited; mods, resource packs, shaders, data packs, worlds and server lists are managed in one place.</p>
-      <ul class="points">
-        <li><b>Safe Upgrades</b>Every in-place upgrade is preceded by a verified full snapshot, so it can be rolled back.</li>
-        <li><b>Backups</b>World backups and full instance snapshots.</li>
-        <li><b>Deletion Safeguard</b>Deleted instances go to the Recycle Bin, after a second confirmation.</li>
-      </ul>
+      <p class="lead">Mods, resource packs, shaders, data packs, worlds and server lists are managed in one place. Deleting an instance takes a second confirmation and moves it to the Windows Recycle Bin.</p>
     </div>
-    <img class="shot" src="../assets/shots/shot-library.webp" alt="Library page: instances and groups" width="1125" height="774" loading="lazy">
+    <div class="g-stage">
+      <figure class="g-item" data-thumb="../assets/shots/tour/inst-upgrade-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/inst-upgrade@2x.webp"><img class="shot" src="../assets/shots/tour/inst-upgrade.webp" alt="Version upgrade for an instance" width="1120" height="760" loading="lazy"></a>
+        <figcaption>Before an upgrade, every mod is checked against the new version. Upgrade into a copy, or in place behind a full snapshot that can be rolled back.</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="../assets/shots/tour/inst-mods-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/inst-mods@2x.webp"><img class="shot" src="../assets/shots/tour/inst-mods.webp" alt="Mods of an instance" width="1120" height="760" loading="lazy"></a>
+        <figcaption>Mods can be searched, filtered by enabled or disabled, and toggled or removed one by one.</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="../assets/shots/tour/inst-saves-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/inst-saves@2x.webp"><img class="shot" src="../assets/shots/tour/inst-saves.webp" alt="Worlds of an instance" width="1120" height="760" loading="lazy"></a>
+        <figcaption>The worlds page lists the worlds of the instance, with world backups and imports.</figcaption>
+      </figure>
+    </div>
   </section>
 
-  <section class="detail flip" id="agent" aria-labelledby="h-agent">
+  <section class="detail d-side" id="server" aria-labelledby="h-server">
+    <div class="detail-copy">
+      <h2 id="h-server">Servers</h2>
+      <p class="lead">The console, common settings, player lists and world backups of a server, in one place.</p>
+    </div>
+    <div class="g-stage">
+      <figure class="g-item" data-thumb="../assets/shots/tour/server-console-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/server-console@2x.webp"><img class="shot" src="../assets/shots/tour/server-console.webp" alt="Startup log in the server console" width="1120" height="760" loading="lazy"></a>
+        <figcaption>The console shows the live log and can be searched by keyword.</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="../assets/shots/tour/server-props-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/server-props@2x.webp"><img class="shot" src="../assets/shots/tour/server-props.webp" alt="Common server settings" width="1120" height="760" loading="lazy"></a>
+        <figcaption>Common server.properties options each come with a description; the raw text can also be edited directly.</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="../assets/shots/tour/server-players-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/server-players@2x.webp"><img class="shot" src="../assets/shots/tour/server-players.webp" alt="Server whitelist" width="1120" height="760" loading="lazy"></a>
+        <figcaption>The Players section manages the whitelist, operators and ban lists.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="detail d-solo" id="agent" aria-labelledby="h-agent">
     <div class="detail-copy">
       <h2 id="h-agent">Agent</h2>
-      <p class="lead">Connects an OpenAI-compatible model to analyze logs and crash reports.</p>
-      <ul class="points">
-        <li><b>Instance Scope</b>Each conversation is bound to the selected instance and can view its folders and configuration.</li>
-        <li><b>Per-Action Approval</b>Writes, deletions and similar actions each require the user&#8217;s approval.</li>
-        <li><b>Backup First</b>Files are backed up before they are modified and can be restored.</li>
-      </ul>
+      <p class="lead">Connects an OpenAI-compatible model to analyze the logs and crash reports of the selected instance.</p>
     </div>
-    <img class="shot" src="../assets/shots/shot-agent.webp" alt="Agent page: a conversation about the selected instance" width="1125" height="774" loading="lazy">
+    <div class="g-stage">
+      <figure class="g-item">
+        <a class="g-zoom" href="../assets/shots/tour/agent-confirm@2x.webp"><img class="shot" src="../assets/shots/tour/agent-confirm.webp" alt="The agent asking for approval before writing a file" width="1120" height="760" loading="lazy"></a>
+        <figcaption>Every write asks first: the target file and the change are shown, the original is saved as .bak, and the action can be denied or allowed once.</figcaption>
+      </figure>
+    </div>
   </section>
 
-  <section class="detail" id="toolbox" aria-labelledby="h-toolbox">
+  <section class="detail d-side flip" id="toolbox" aria-labelledby="h-toolbox">
     <div class="detail-copy">
       <h2 id="h-toolbox">Toolbox</h2>
       <p class="lead">Common tools for enchanting, coordinates, beacons, brewing, banners, colored text, server ping and more.</p>
-      <ul class="points">
-        <li><b>Enchanting Helper</b>Calculates anvil experience costs and the optimal combining order.</li>
-        <li><b>Coordinate Converter</b>Parses F3+C coordinates and converts between the Nether and the Overworld.</li>
-        <li><b>Banner Designer</b>Previews patterns and lists the crafting steps, materials and commands.</li>
-      </ul>
     </div>
-    <img class="shot" src="../assets/shots/shot-toolbox.webp" alt="Toolbox" width="1125" height="774" loading="lazy">
+    <div class="g-stage">
+      <figure class="g-item" data-thumb="../assets/shots/tour/tool-enchant-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/tool-enchant@2x.webp"><img class="shot" src="../assets/shots/tour/tool-enchant.webp" alt="Enchanting helper in the toolbox" width="1120" height="760" loading="lazy"></a>
+        <figcaption>The enchanting helper gives the combining order and the cost of each step, every step within 39 levels.</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="../assets/shots/tour/tool-banner-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/tool-banner@2x.webp"><img class="shot" src="../assets/shots/tour/tool-banner.webp" alt="Banner designer in the toolbox" width="1120" height="760" loading="lazy"></a>
+        <figcaption>The banner designer stacks patterns layer by layer and lists the crafting steps, materials and commands.</figcaption>
+      </figure>
+      <figure class="g-item" data-thumb="../assets/shots/tour/tool-coords-t.webp">
+        <a class="g-zoom" href="../assets/shots/tour/tool-coords@2x.webp"><img class="shot" src="../assets/shots/tour/tool-coords.webp" alt="Coordinate converter in the toolbox" width="1120" height="760" loading="lazy"></a>
+        <figcaption>The coordinate converter gives the matching Nether position, the chunk and a tp command.</figcaption>
+      </figure>
+    </div>
   </section>
-
-  <section class="all" aria-labelledby="h-all">
-    <h2 id="h-all">All Features</h2>
-    <ul>
-      <li><b>All-in-One Installation</b>Vanilla, Fabric, Quilt, Forge and NeoForge, plus Paper, Purpur and Spigot servers.</li>
-      <li><b>Modpacks</b>Import ZIP, mrpack, CurseForge or MultiMC / Prism instances; RAR and 7z too with 7-Zip.</li>
-      <li><b>Instances</b>Group and favorite; mods, resource packs, shaders, data packs, worlds and servers in one place.</li>
-      <li><b>Safe Upgrades</b>Move to a new game version as a copy, or in place behind a verified full snapshot to roll back to.</li>
-      <li><b>Downloads</b>Concurrent, resumable, speed limit and proxy; existing files verified and reused.</li>
-      <li><b>Java</b>Finds installed Java or fetches one from Adoptium.</li>
-      <li><b>Servers</b>Console, server.properties editor, whitelist / ops / bans, backups.</li>
-      <li><b>Toolbox</b>Enchanting order, coordinates, beacons, brewing, banners, colored text, server ping and more.</li>
-      <li><b>Agent</b>Connects an OpenAI-compatible model to analyze logs and crash reports; every change requires the user&#8217;s approval.</li>
-      <li><b>Appearance</b>Three scenic themes over a frosted interface; the background image and accent color can be customized.</li>
-    </ul>
-  </section>
-
   <section class="closing" aria-label="Download">
     <a class="btn primary lg" href="https://github.com/wtfml/WTFML/releases/latest">
       <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5M5 19.5h14"/></svg>Download</a>
@@ -171,6 +216,7 @@
   <p>Minecraft is a trademark of Mojang Studios. WTFML is not affiliated with Mojang Studios.</p>
 </footer>
 
+<script src="../js/gallery.js"></script>
 <script src="../js/lang.js"></script>
 <script src="../js/motion.js"></script>
 </body>
